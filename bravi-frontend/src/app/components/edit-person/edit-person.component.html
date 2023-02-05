@@ -1,0 +1,61 @@
+<div class="container" style="width: 750px; height: 450px;  margin: 50px;">
+  <h3 class="text-center mb-4">{{title}}</h3>
+  <form [formGroup]="personForm" #formDir="ngForm" (ngSubmit)="onSubmit(formDir)">
+
+    <div class="input-group mb-3">
+      <div class="col-sm-12 px-2">
+        <input type="text" class="form-control" placeholder="Nome" aria-label="Nome" formControlName="name" [ngModel]="person?.name" required>
+        <div *ngIf="name.invalid && formDir.submitted" class="validation-error">
+          <p *ngIf="name.errors?.['required']">O nome é obrigatório</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="col-sm-6 px-2">
+        <input type="text" class="form-control" placeholder="Email" aria-label="Email" formControlName="email" [ngModel]="person?.email" required>
+        <div *ngIf="email.invalid && formDir.submitted" class="validation-error">
+          <p *ngIf="email.errors?.['required']">O email é obrigatório</p>
+        </div>
+      </div>
+
+      <div class="col-sm-6 px-2">
+        <input type="text" class="form-control" placeholder="CPF" aria-label="CPF" formControlName="cpf" [ngModel]="person?.cpf" required>
+        <div *ngIf="cpf.invalid && formDir.submitted" class="validation-error">
+          <p *ngIf="cpf.errors?.['required']">O cpf é obrigatório</p>
+        </div>
+      </div>
+    </div>
+    <h5 class="text-center mb-4">Contatos</h5>
+    <div formArrayName="contacts">
+      <ng-container *ngFor="let contact of contactControls;index as i">
+        <div class="input-group mb-3"  formGroupName="{{i}}">
+          <div class="col-sm-6 px-2">
+            <select name="" class="form-control" id="" formControlName="type" placeholder="Selecione" [ngModel]="person.contacts[i]?.type"  required>
+              <option value="" disabled selected>Selecione o tipo</option>
+              <option value="Celular">Celular</option>
+              <option value="WhatsApp">WhatsApp</option>
+              <option value="Telefone">Telefone</option>
+            </select>
+          </div>
+          <div class="col-sm-6 px-2">
+            <input type="text" class="form-control" placeholder="Número" aria-label="Número" formControlName="number" [ngModel]="person.contacts[i]?.number" required>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="button-container">
+        <button type="button" (click)="onAddContact()" mat-fab color="primary" aria-label="Example icon button with a delete icon">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" (click)="closeModal()" class="btn btn-secondary mb-3">Cancelar</button>
+      <button type="submit" class="btn btn-primary mb-3">Salvar</button>
+    </div>
+
+
+  </form>
+</div>
